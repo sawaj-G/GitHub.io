@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Trading HUD - Premium Access (Animated Title)</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ========== DEEP SPACE PREMIUM THEME VARIABLES (v5 - Final) ========== */
+        :root {
+            /* Default Dark Mode */
+            --bg-primary: #0a0e14; /* Ultra Dark Background */
+            --bg-card: #151b23;    /* Dark Card */
+            --border-color: #2c313a;
+            --text-color: #e5e8eb;
+            --text-secondary: #8d97a5;
+            --accent-gold: #ffcc00; /* Premium Highlight */
+            --accent-blue: #00bcd4; /* Neon Cyan Glow */
+            --accent-red: #ff3d67;
+            --input-bg: #03060b;
+            --shadow-color-glow: rgba(0, 188, 212, 0.5);
+            --shadow-color-card: rgba(0, 0, 0, 0.8);
+            
+            /* KEY CHANGE: Inset Shadow for Deep/Gaddha Input Effect */
+            --input-depth-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.9), inset 0 -1px 2px rgba(44, 49, 58, 0.3); 
+
+            /* Typing Effect Variables */
+            --typing-steps: 16; /* Characters in "AI Trading HUD" excluding spaces */
+            --typing-duration: 4s; /* Slow, smooth typing speed */
+            
+            /* Social Media Colors (Original Brand Colors) */
+            --color-facebook: #1877f2;
+            --color-instagram: #e1306c; 
+            --color-twitter: #1da1f2;
+            --color-telegram: #0088cc;
+        }
+        
+        /* Light Mode Variables (Placeholder) */
+        .light-mode {
+            --bg-primary: #f0f2f5;
+            --bg-card: #ffffff;
+            --border-color: #ccc;
+            --text-color: #333;
+            --text-secondary: #666;
+            --accent-gold: #ff9900;
+            --accent-blue: #0056b3;
+            --input-bg: #e9ecef;
+            --shadow-color-glow: rgba(0, 86, 179, 0.3);
+            --shadow-color-card: rgba(0, 0, 0, 0.1);
+            --input-depth-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); 
+        }
+
+        /* Base Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            transition: color 0.3s, background-color 0.3s, border-color 0.3s, box-shadow 0.3s, transform 0.2s;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 10px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .form-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            box-shadow: 0 10px 40px var(--shadow-color-card), 0 0 15px var(--shadow-color-glow); 
+            padding: 30px; 
+            text-align: center;
+            position: relative; 
+        }
+
+        /* Header/Branding */
+        .header-brand {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* --- LOGO STYLE --- */
+        .header-brand h1 {
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--accent-blue);
+            text-shadow: 0 0 8px var(--shadow-color-glow); 
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .logo-icon {
+            font-size: 28px;
+            color: var(--accent-gold);
+            text-shadow: 0 0 6px rgba(255, 204, 0, 0.7);
+        }
+
+        .header-brand p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+        
+        /* === TYPING ANIMATION STYLES === */
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--accent-gold); }
+        }
+
+        .typing-text {
+            overflow: hidden; 
+            white-space: nowrap; 
+            width: 0; 
+            border-right: .15em solid var(--accent-gold);
+            
+            animation: 
+                typing var(--typing-duration) steps(var(--typing-steps), end),
+                blink-caret .75s step-end infinite;
+            
+            animation-delay: 0.5s; 
+            animation-fill-mode: forwards; 
+        }
+        
+        /* === DEEP INPUT FIELD STYLES (Gaddha Effect) === */
+        input[type="text"],
+        input[type="password"],
+        input[type="email"] {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 15px;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-color);
+            font-size: 16px;
+            outline: none;
+            box-shadow: var(--input-depth-shadow); 
+        }
+
+        input:focus {
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 8px rgba(255, 204, 0, 0.7); 
+            background-color: #1c212a; 
+        }
+
+        /* Buttons and Links */
+        button {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 10px;
+            letter-spacing: 1px;
+        }
+        
+        .login-btn {
+            background-color: var(--accent-blue);
+            color: var(--bg-primary);
+            margin-bottom: 18px;
+        }
+        
+        /* === DONGLE/KEY BUTTON ENHANCEMENT === */
+        .dongle-key-btn {
+            box-shadow: 
+                0 8px 30px rgba(0, 188, 212, 0.7), 
+                0 0 15px rgba(255, 204, 0, 0.4);   
+            border: 1px solid var(--accent-blue);
+        }
+
+        .dongle-key-btn:hover {
+            background-color: #00e5ff; 
+            transform: translateY(-2px); 
+            box-shadow: 
+                0 12px 40px rgba(0, 188, 212, 0.9),
+                0 0 20px rgba(255, 204, 0, 0.6);
+        }
+
+        .dongle-key-btn:active {
+            transform: translateY(1px); 
+            box-shadow: 
+                0 4px 15px rgba(0, 188, 212, 0.5), 
+                0 0 10px rgba(255, 204, 0, 0.3);
+        }
+
+        .dongle-key-btn i {
+            margin-right: 10px;
+        }
+        /* ======================================= */
+
+        .special-entry-btn {
+            background-color: var(--accent-gold); 
+            color: var(--bg-primary);
+            box-shadow: 0 4px 15px rgba(255, 204, 0, 0.5);
+            margin-bottom: 30px;
+        }
+
+        .forgot-link {
+            display: block;
+            color: var(--accent-gold);
+            text-decoration: none;
+            font-size: 15px;
+            margin-bottom: 25px;
+        }
+
+        .separator {
+            border-bottom: 1px solid var(--border-color);
+            margin: 25px 0 25px 0;
+        }
+
+        .create-account-btn {
+            background-color: transparent; 
+            color: var(--accent-blue);
+            border: 2px solid var(--accent-blue);
+            padding: 15px;
+        }
+        
+        /* === APP-STYLE SOCIAL ICONS === */
+        .social-links {
+            display: flex;
+            justify-content: space-around;
+            gap: 10px;
+            max-width: 350px;
+            margin: 20px auto 25px auto;
+        }
+
+        .social-links a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            color: white;
+            font-size: 24px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .social-links a.facebook { background-color: var(--color-facebook); }
+        .social-links a.instagram { 
+             /* Instagram Gradient Simulation */
+             background-image: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #4a00af 90%);
+             border: 2px solid var(--accent-gold);
+        }
+        .social-links a.twitter { background-color: var(--color-twitter); }
+        .social-links a.telegram { background-color: var(--color-telegram); }
+
+        .social-links a:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+        }
+        
+        /* Ambient Player (Data Feed Simulation) - Optimized Layout */
+        .ambient-player {
+            background-color: #0d131b;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 30px;
+            text-align: left;
+            display: flex;
+            flex-direction: column; 
+            gap: 15px;
+        }
+        
+        .ambient-player h3 {
+            font-size: 14px;
+            color: var(--accent-gold);
+            margin-bottom: 0;
+        }
+        
+        /* --- THEME TOGGLE BUTTON (New Position) --- */
+        .theme-toggle-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0; 
+            width: auto;
+            margin: 0;
+            color: var(--accent-gold);
+            font-size: 20px;
+            line-height: 1;
+        }
+        
+        .theme-toggle-btn:hover {
+            color: var(--accent-blue);
+            transform: scale(1.1);
+        }
+
+        .ambient-control {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+        }
+
+        .ambient-control button {
+            width: 40px;
+            height: 40px;
+            min-width: 40px; 
+            padding: 0;
+            margin: 0;
+            background-color: var(--accent-blue);
+            color: var(--bg-primary);
+            box-shadow: 0 0 5px var(--shadow-color-glow);
+        }
+        
+        .ambient-info {
+            flex-grow: 1;
+            margin-left: 15px;
+        }
+
+        .ambient-info p {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .ambient-info strong {
+            display: block;
+            color: var(--text-color);
+            font-size: 15px;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); 
+            display: none; justify-content: center; align-items: center; z-index: 2000; backdrop-filter: blur(5px); 
+        }
+
+        .modal-content {
+            background-color: var(--bg-card); border: 2px solid var(--accent-gold); border-radius: 12px;
+            width: 90%; max-width: 380px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); text-align: left; 
+            padding: 20px;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+        
+        .modal-header h2 {
+            color: var(--accent-blue);
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        .modal-body {
+            padding: 10px 0;
+        }
+        
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 15px;
+        }
+        
+        .close-btn {
+            cursor: pointer;
+            font-size: 20px;
+            color: var(--text-secondary);
+        }
+        
+        .close-btn:hover {
+            color: var(--accent-red);
+        }
+        
+        .message-box {
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .message-box.error {
+            background-color: #3b0914;
+            color: var(--accent-red);
+            border: 1px solid var(--accent-red);
+        }
+
+        .message-box.success {
+            background-color: #0b3d30;
+            color: #4CAF50;
+            border: 1px solid #4CAF50;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        
+        <div class="form-card" id="loginFormCard">
+            
+            <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
+                <button class="theme-toggle-btn" onclick="toggleTheme()" title="Toggle Theme">
+                    <i class="fas fa-moon" id="themeIcon"></i>
+                </button>
+            </div>
+            
+            <div class="header-brand">
+                <h1>
+                    <i class="fas fa-shield-alt logo-icon"></i> 
+                    
+                    <span class="typing-text">AI Trading HUD</span>
+                    
+                    <i class="fas fa-lock" style="color: var(--accent-blue); font-size: 22px;"></i>
+                </h1>
+                <p>Secure Terminal V3.0 - Global Connectivity</p>
+            </div>
+            
+            <div class="message-box" id="loginMessage" style="display: none;"></div>
+            
+            <input type="email" id="loginEmail" placeholder="Access ID / Registered Email">
+            <input type="password" id="loginPassword" placeholder="Authentication Key (Password)">
+            
+            <button class="login-btn dongle-key-btn" onclick="handleLogin()">
+                <i class="fas fa-key"></i>
+                Unlock Premium Access
+            </button>
+            
+            <button class="special-entry-btn" onclick="openSpecialEntryModal()">
+                <i class="fas fa-fingerprint"></i>
+                Special Entry (Biometric Override)
+            </button>
+            
+            <a href="#" class="forgot-link" onclick="openResetModal(); return false;">
+                <i class="fas fa-redo-alt"></i>
+                Recovery / Reset Key
+            </a>
+            
+            <div class="separator"></div>
+
+            <div class="social-links">
+                <a href="https://www.facebook.com/" target="_blank" class="facebook" title="Facebook Login">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://www.instagram.com/" target="_blank" class="instagram" title="Instagram Link">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://www.twitter.com/" target="_blank" class="twitter" title="Twitter/X Link">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="https://t.me/" target="_blank" class="telegram" title="Telegram Channel">
+                    <i class="fab fa-telegram-plane"></i>
+                </a>
+            </div>
+            
+            <div class="separator"></div>
+
+            <button class="create-account-btn" onclick="openSignupModal()">
+                <i class="fas fa-user-plus"></i>
+                Request New Terminal Account
+            </button>
+            
+            <div class="ambient-player">
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                    <h3><i class="fas fa-wifi" style="color: var(--accent-blue);"></i> Live Data Feed Status</h3>
+                </div>
+                
+                <div class="ambient-control">
+                    <button id="playPauseButton" onclick="toggleAmbientMusic()">
+                        <i class="fas fa-play" id="ambientIcon"></i>
+                    </button>
+                    <div class="ambient-info">
+                        <strong>Global Market Ticker V3.1</strong>
+                        <p>Status: <span id="ambientStatus" style="color: var(--accent-red);">Disconnected</span></p>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="signupModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>New Account Registration</h2>
+                <span class="close-btn" onclick="closeModal('signupModal')"><i class="fas fa-times"></i></span>
+            </div>
+            <div class="modal-body">
+                <div class="message-box" id="signupMessage" style="display: none;"></div>
+                <input type="text" id="signupFirstname" placeholder="Full Name">
+                <input type="email" id="signupEmail" placeholder="Email Address">
+                <input type="password" id="signupPassword" placeholder="New Password (Min 6 Chars)">
+            </div>
+            <div class="modal-footer">
+                <button class="login-btn" style="width: auto; background-color: var(--accent-gold); box-shadow: none;" onclick="handleSignup()">
+                    <i class="fas fa-check"></i>
+                    Register
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="resetModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Access Key Recovery</h2>
+                <span class="close-btn" onclick="closeModal('resetModal')"><i class="fas fa-times"></i></span>
+            </div>
+            <div class="modal-body">
+                <div class="message-box" id="resetMessage" style="display: none;"></div>
+                <input type="email" id="resetEmail" placeholder="Registered Email Address">
+            </div>
+             <div class="modal-footer">
+                <button class="login-btn" style="width: auto;" onclick="handleReset()">
+                    <i class="fas fa-sync-alt"></i>
+                    Initiate Recovery
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="specialEntryModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-user-secret"></i> Special Entry</h2>
+                <span class="close-btn" onclick="closeModal('specialEntryModal')"><i class="fas fa-times"></i></span>
+            </div>
+            <div class="modal-body">
+                <div class="message-box" id="specialMessage" style="display: none;"></div>
+                <input type="password" id="specialPassword" placeholder="Enter 4-Digit Code (e.g., 0001)" maxlength="4" style="text-align: center; text-transform: uppercase;">
+            </div>
+             <div class="modal-footer">
+                <button class="login-btn" style="width: auto; background-color: var(--accent-gold);" onclick="handleSpecialEntry()">
+                    <i class="fas fa-door-open"></i>
+                    Authenticate
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+    
+    <script>
+        // --- CONFIGURATION ---
+        const USER_DB_KEY = 'ai_hud_user_db_v3';
+        const SESSION_KEY = 'ai_hud_session_active_v3';
+        // Your Single Special Key is 2022
+        const SPECIAL_KEY_CODE = '2022'; 
+        
+        // --- NOTE: If your login file is named login.html, you need to change SUCCESS_REDIRECT to your actual dashboard file.
+        const SUCCESS_REDIRECT = 'index.html'; 
+        const THEME_STORAGE_KEY = 'ai_hud_theme_v1'; 
+
+        // --- UTILITY FUNCTIONS ---
+        function loadDB() {
+            const db = localStorage.getItem(USER_DB_KEY);
+            return db ? JSON.parse(db) : {};
+        }
+
+        function saveDB(db) {
+            localStorage.setItem(USER_DB_KEY, JSON.stringify(db));
+        }
+        
+        function hashPassword(password) {
+            if (typeof CryptoJS === 'undefined') {
+                console.error("CryptoJS library not loaded! Cannot hash password.");
+                return password; 
+            }
+            return CryptoJS.SHA256(password).toString();
+        }
+
+        function displayMessage(type, message, elementId) {
+            const msgBox = document.getElementById(elementId);
+            msgBox.textContent = message;
+            msgBox.className = `message-box ${type}`;
+            msgBox.style.display = 'block';
+            
+            // Set error/success message to disappear after 5 seconds
+            setTimeout(() => {
+                if (msgBox.style.display !== 'none') {
+                    msgBox.style.display = 'none';
+                }
+            }, 5000); 
+        }
+
+        // ADDED DELAY FOR BETTER SIMULATION EFFECT
+        function redirectToDashboard() {
+            localStorage.setItem(SESSION_KEY, 'true');
+            // 1.5 second delay before redirect
+            setTimeout(() => {
+                window.location.replace(SUCCESS_REDIRECT);
+            }, 1500); 
+        }
+
+        // --- FIX: This function has been removed from window.onload to allow the login screen to display ---
+        // If you want to check for an active session, you must do it on the dashboard (SUCCESS_REDIRECT) file.
+        // If you save this file as login.html, it will open correctly now.
+        /*
+        function checkSession() {
+            if (localStorage.getItem(SESSION_KEY) === 'true') {
+                window.location.replace(SUCCESS_REDIRECT);
+            }
+        }
+        */
+        
+        // --- THEME LOGIC ---
+        function applyTheme(theme) {
+            const body = document.body;
+            const icon = document.getElementById('themeIcon');
+            
+            if (theme === 'light') {
+                body.classList.add('light-mode');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                body.classList.remove('light-mode');
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+            localStorage.setItem(THEME_STORAGE_KEY, theme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.body.classList.contains('light-mode') ? 'light' : 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            applyTheme(newTheme);
+        }
+
+        function initTheme() {
+            const savedTheme = localStorage.getItem(THEME_STORAGE_KEY) || 'dark';
+            applyTheme(savedTheme);
+        }
+
+        window.onload = () => {
+             // checkSession(); // <--- REMOVED/COMMENTED OUT THE AUTO-REDIRECT CHECK HERE
+             initTheme(); 
+        };
+
+
+        // --- AMBIENT PLAYER SIMULATION LOGIC (Data Feed) ---
+        let isStreaming = false;
+        
+        function toggleAmbientMusic() {
+            const statusElement = document.getElementById('ambientStatus');
+            const buttonIcon = document.getElementById('ambientIcon');
+            
+            isStreaming = !isStreaming; 
+
+            if (isStreaming) {
+                statusElement.textContent = 'Live Streaming...';
+                statusElement.style.color = 'var(--accent-blue)';
+                buttonIcon.classList.remove('fa-play');
+                buttonIcon.classList.add('fa-pause');
+                console.log("Data Feed: Started live market data stream.");
+            } else {
+                statusElement.textContent = 'Disconnected';
+                statusElement.style.color = 'var(--accent-red)';
+                buttonIcon.classList.remove('fa-pause');
+                buttonIcon.classList.add('fa-play');
+                console.log("Data Feed: Paused stream.");
+            }
+        }
+
+        // --- MODAL HANDLERS ---
+        function openSignupModal() { document.getElementById('signupModal').style.display = 'flex'; document.getElementById('signupMessage').style.display = 'none'; }
+        function openResetModal() { document.getElementById('resetModal').style.display = 'flex'; document.getElementById('resetMessage').style.display = 'none'; }
+        function openSpecialEntryModal() { document.getElementById('specialEntryModal').style.display = 'flex'; document.getElementById('specialMessage').style.display = 'none'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+        // --- SIGNUP LOGIC (EASY MODE, allows quick registration) ---
+        function handleSignup() {
+            const firstName = document.getElementById('signupFirstname').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const password = document.getElementById('signupPassword').value.trim();
+            const msgBox = 'signupMessage';
+
+            if (!firstName || !email || !password) {
+                return displayMessage('error', 'Please fill in all details.', msgBox);
+            }
+
+            const db = loadDB();
+            
+            if (db[email]) {
+                 return displayMessage('error', 'This email is already registered. Please login.', msgBox);
+            }
+
+            db[email] = {
+                firstName: firstName,
+                hashedPassword: hashPassword(password), 
+                createdAt: new Date().toISOString()
+            };
+            saveDB(db);
+
+            displayMessage('success', 'Registration Successful! You can now log in.', msgBox);
+            
+            setTimeout(() => {
+                document.getElementById('signupFirstname').value = '';
+                document.getElementById('signupEmail').value = '';
+                document.getElementById('signupPassword').value = '';
+                closeModal('signupModal');
+            }, 2000);
+        }
+
+        // --- LOGIN LOGIC (Standard Mode, requires correct password) ---
+        function handleLogin() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            const msgBox = 'loginMessage';
+
+            if (!email || !password) {
+                return displayMessage('error', 'Please enter Access ID and Key.', msgBox);
+            }
+
+            const db = loadDB();
+            const user = db[email];
+
+            if (!user) {
+                return displayMessage('error', 'User not authorized. Please register first.', msgBox);
+            }
+
+            const hashedAttempt = hashPassword(password);
+
+            if (hashedAttempt === user.hashedPassword) {
+                displayMessage('success', 'Authentication Approved. Initializing Terminal...', msgBox);
+                document.getElementById('loginEmail').value = '';
+                document.getElementById('loginPassword').value = '';
+                redirectToDashboard(); // Delayed redirect
+            } else {
+                return displayMessage('error', 'Invalid Authentication Key. Access Denied.', msgBox);
+            }
+        }
+
+        // --- SPECIAL ENTRY LOGIC ---
+        function handleSpecialEntry() {
+            const specialPassword = document.getElementById('specialPassword').value.trim();
+            const msgBox = 'specialMessage';
+            
+            if (specialPassword.length !== 4) {
+                return displayMessage('error', 'Enter the 4-digit code.', msgBox);
+            }
+
+            if (specialPassword === SPECIAL_KEY_CODE) {
+                displayMessage('success', 'Personal Access Granted. Bypassing Security...', msgBox);
+                document.getElementById('specialPassword').value = '';
+                closeModal('specialEntryModal');
+                redirectToDashboard(); // Delayed redirect
+            } else {
+                return displayMessage('error', 'Unauthorized Code. Access Alert.', msgBox);
+            }
+        }
+
+        // --- PASSWORD RESET LOGIC (SIMULATED) ---
+        function handleReset() {
+            const email = document.getElementById('resetEmail').value.trim();
+            const db = loadDB();
+            const msgBox = 'resetMessage';
+
+            if (!email) {
+                return displayMessage('error', 'Please enter your registered email address.', msgBox);
+            }
+            
+            if (!db[email]) {
+                return displayMessage('error', 'No registered account found with this email.', msgBox);
+            }
+
+            displayMessage('success', 'Recovery key request logged (Simulated). Check your terminal mail.', msgBox);
+
+            setTimeout(() => {
+                document.getElementById('resetEmail').value = '';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
