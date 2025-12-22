@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#000000">
+    <title>LIVE MONITORING | GOD MODE</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://s3.tradingview.com/tv.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="modal-overlay" id="infoModal">
+        <div class="modal-box">
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+            <div class="modal-header">
+                <div class="modal-icon" id="mIcon"></div>
+                <div class="modal-title" id="mTitle">TITLE</div>
+            </div>
+            <div class="modal-desc" id="mDesc">Description text goes here.</div>
+            <div class="modal-live-box">
+                <span class="modal-lbl">LIVE STATUS:</span>
+                <span class="modal-val" id="mLiveVal">--</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="permModal">
+        <div class="perm-box">
+            <h3 style="color:#fff; margin-bottom:10px; font-family:'JetBrains Mono'"><i class="fa-solid fa-power-off"></i> SYSTEM INIT</h3>
+            <p style="color:#777; font-size:11px;">Loading Premium Modules.<br>Tap any card to inspect.</p>
+            <button class="perm-btn" onclick="grantPermissions()">ACTIVATE GOD MODE</button>
+        </div>
+    </div>
+
+    <header class="top-nav">
+        <div style="display:flex; align-items:center;">
+            <div class="brand"><i class="fa-solid fa-cube"></i> LIVE<span>MONITORING</span></div>
+            <div class="coin-wrapper">
+                <select class="market-select" id="coinSelect" onchange="systemReboot(this.value)">
+                    <option value="btcusdt">BTC/USDT</option>
+                    <option value="ethusdt">ETH/USDT</option>
+                    <option value="solusdt">SOL/USDT</option>
+                </select>
+            </div>
+        </div>
+        <div class="price-box" onclick="showDetails('PRICE')">
+            <span class="price-live" id="mainPrice">--.--</span>
+        </div>
+        <button class="theme-btn" onclick="toggleTheme()"><i class="fa-solid fa-circle-half-stroke"></i></button>
+    </header>
+
+    <div class="stats-container">
+        <div class="stat-row">
+            <div class="stat-box" onclick="showDetails('VOL')"><span class="stat-lbl"><i class="fa-solid fa-chart-simple"></i> VOL</span><span class="stat-val" id="stat-vol">--</span></div>
+            <div class="stat-box" onclick="showDetails('HIGH')"><span class="stat-lbl"><i class="fa-solid fa-arrow-up"></i> HI</span><span class="stat-val" style="color:var(--green)" id="stat-high">--</span></div>
+            <div class="stat-box" onclick="showDetails('LOW')"><span class="stat-lbl"><i class="fa-solid fa-arrow-down"></i> LO</span><span class="stat-val" style="color:var(--red)" id="stat-low">--</span></div>
+            <div class="stat-box" onclick="showDetails('IMB')"><span class="stat-lbl"><i class="fa-solid fa-scale-unbalanced"></i> IMB</span><span class="stat-val" id="stat-imb">--</span></div>
+        </div>
+        <div class="stat-row">
+            <div class="stat-box" onclick="showDetails('WHALE')"><span class="stat-lbl"><i class="fa-solid fa-fish-fins"></i> WHL</span><span class="stat-val" style="color:var(--gold)">SCAN</span></div>
+            <div class="stat-box" onclick="showDetails('RSI')"><span class="stat-lbl"><i class="fa-solid fa-wave-square"></i> RSI</span><span class="stat-val" id="stat-rsi">--</span></div>
+            <div class="stat-box" onclick="showDetails('MOM')"><span class="stat-lbl"><i class="fa-solid fa-gauge-high"></i> VEL</span><span class="stat-val" id="mom-val">--</span></div>
+            <div class="stat-box" onclick="showDetails('PING')"><span class="stat-lbl"><i class="fa-solid fa-satellite-dish"></i> MS</span><span class="stat-val" style="color:var(--green)">LIVE</span></div>
+        </div>
+    </div>
+
+    <div class="layout-grid">
+        
+        <div class="main-stage">
+            <div class="top-deck">
+                <div class="chart-box main-chart">
+                    <div class="chart-tag"><i class="fa-solid fa-stopwatch"></i> 1m SCALP (WIDE)</div>
+                    <div id="tv_1m" style="width:100%; height:100%;"></div>
+                </div>
+            </div>
+
+            <div class="bottom-deck">
+                <div class="col-charts-lower">
+                    <div class="chart-box sub-chart"><div class="chart-tag"><i class="fa-solid fa-clock"></i> 5m INTRA</div><div id="tv_5m" style="width:100%; height:100%;"></div></div>
+                    <div class="chart-box sub-chart"><div class="chart-tag"><i class="fa-solid fa-chart-line"></i> 15m TREND</div><div id="tv_15m" style="width:100%; height:100%;"></div></div>
+                    <div class="chart-box sub-chart"><div class="chart-tag"><i class="fa-solid fa-calendar-day"></i> 30m SWING</div><div id="tv_30m" style="width:100%; height:100%;"></div></div>
+                    <div class="chart-box sub-chart"><div class="chart-tag"><i class="fa-solid fa-globe"></i> 1H MACRO</div><div id="tv_1h" style="width:100%; height:100%;"></div></div>
+                </div>
+
+                <div class="col-brain">
+                    <div class="panel-head"><span>CORE</span><i class="fa-solid fa-microchip"></i></div>
+                    <div class="panel-body">
+                        <div class="signal-box" id="autoSignalBox" onclick="showDetails('SIGNAL')">
+                            <div style="font-size:9px; font-weight:800; color:#777;"><i class="fa-solid fa-robot"></i> AI SIGNAL</div>
+                            <div class="sig-val" id="autoSignalText">WAITING</div>
+                            <div style="font-size:10px; color:#aaa;" id="autoSignalConf">CONF: --%</div>
+                        </div>
+
+                        <div class="ai-card c-green" onclick="showDetails('MOM')">
+                            <div class="ai-name"><span><i class="fa-solid fa-bolt"></i> MOMENTUM</span><div class="led on"></div></div>
+                            <div class="ai-msg" id="mom-msg">Tracking...</div>
+                        </div>
+                        <div class="ai-card c-purple" onclick="showDetails('SENTI')">
+                            <div class="ai-name"><span><i class="fa-solid fa-brain"></i> SENTIMENT</span><div class="led on"></div></div>
+                            <div class="ai-msg" id="senti-val">Neutral</div>
+                        </div>
+
+                        <div class="panel-head" style="margin-top:10px; padding-left:0; background:transparent;">MATRIX <i class="fa-solid fa-border-all"></i></div>
+                        <div class="matrix-con" onclick="showDetails('MATRIX')">
+                            <div class="ob-row" style="border-bottom:1px solid #222; color:#555;"><span>PX</span><span>SZ</span></div>
+                            <div id="ask-rows"></div>
+                            <div style="text-align:center; font-size:9px; color:#444; margin:2px 0;" id="spread-val">-</div>
+                            <div id="bid-rows"></div>
+                        </div>
+                    </div>
+                    <div class="panel-head">LOGS <i class="fa-solid fa-terminal"></i></div>
+                    <div class="log-wrap" id="sysLogs"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-engines">
+            <div class="panel-head">CPU <i class="fa-solid fa-server"></i></div>
+            <div class="panel-body" id="engineRack"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
